@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Qual Será Sua Bênção em 2026? - Raspadinha da Sorte</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1542909192-2f2241a99c9d?auto=format&fit=crop&q=80') center/cover no-repeat;
+      opacity: 0.18;
+      z-index: -2;
+    }
+
+    .container {
+      max-width: 480px;
+      width: 90%;
+      margin: 0 auto;
+      padding: 20px 15px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 30px 0 10px;
+      background: linear-gradient(90deg, #ffd700, #ffea00, #ffd700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 25px rgba(255,215,0,0.8);
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: #e8e8e8;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: rgba(20, 20, 60, 0.7);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 30px 20px;
+      margin: 25px 0;
+      border: 1px solid rgba(255,215,0,0.35);
+      box-shadow: 0 15px 60px rgba(0,0,0,0.7);
+    }
+
+    .scratch-container {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      height: 210px;
+      margin: 35px auto;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #0a0a20;
+      box-shadow: inset 0 0 20px gold;
+    }
+
+    .scratch-under {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.1rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #1a0033, #330066);
+      color: #ffeb3b;
+      text-shadow: 0 0 18px #ffeb3b;
+      padding: 25px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.8s;
+    }
+
+    .result-text {
+      font-size: 1.8rem;
+      margin: 20px 0 12px;
+      color: #00ffcc;
+      text-shadow: 0 0 20px #00ffcc;
+    }
+
+    .summary {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      color: #e0f7fa;
+      margin: 18px 0 30px;
+      padding: 0 10px;
+    }
+
+    .scratch-over {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, #a0a0a0, #d0d0d0, #a0a0a0);
+      cursor: pointer;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      touch-action: none;
+    }
+
+    .win-section {
+      display: none;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ffd700, #ffea00, #ffd700);
+      color: #000;
+      border: none;
+      padding: 18px 60px;
+      font-size: 1.35rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 30px 0 15px;
+      box-shadow: 0 12px 45px rgba(255,215,0,0.7);
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.07);
+      box-shadow: 0 18px 60px rgba(255,215,0,0.9);
+    }
+
+    .instruction {
+      font-size: 1.15rem;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Qual Será Sua Bênção para 2026?</h1>
+  <p class="subtitle">Raspe e descubra o que o Universo preparou para você!</p>
+
+  <div class="card">
+    <div class="scratch-container" id="scratchArea">
+      <div class="scratch-under" id="blessingUnder">
+        <!-- Bênção será inserida aqui via JS -->
+      </div>
+      <div class="scratch-over" id="scratchOver"></div>
+      <canvas id="scratchCanvas" width="360" height="210"></canvas>
+    </div>
+
+    <div id="winSection" class="win-section">
+      <div class="result-text">QUAL SERÁ A SUA BENÇÃO PARA 2026?</div>
+      
+      <div id="blessingText" class="result-text" style="font-size:2.1rem; min-height:80px;"></div>
+      
+      <p style="font-size:1.4rem; color:#ffd700; margin:25px 0 15px; text-shadow:0 0 15px gold;">
+        Esse ano que vem seja próspero!<br>
+        Sua bênção será o dinheiro,<br>
+        sua bênção será sorte no amor...
+      </p>
+
+      <div id="summaryText" class="summary"></div>
+
+      <button id="btnShare">Compartilhar com 5 amigos e espalhar a sorte!</button>
+      <p class="instruction">Envie para 5 pessoas queridas e multiplique as bênçãos!</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+  // Lista de bênçãos variadas (15 opções)
+  const blessings = [
+    "Prosperidade financeira que nunca mais te deixa na mão",
+    "Um amor lindo, recíproco e que dura a vida inteira",
+    "Saúde perfeita, energia alta e corpo forte o ano todo",
+    "Sucesso profissional com aumento, promoção e reconhecimento",
+    "Viagens dos sonhos para lugares que você sempre quis conhecer",
+    "Paz interior profunda, fim da ansiedade e felicidade constante",
+    "Família unida, lar cheio de amor e harmonia total",
+    "Sorte absurda em jogos, concursos e oportunidades inesperadas",
+    "Realização de um sonho antigo que parecia impossível",
+    "Conexões poderosas e amizades que abrem portas incríveis",
+    "Criatividade no talo e inspiração para projetos que vão bombar",
+    "Liberdade financeira para viver sem olhar preço",
+    "Encontro com a pessoa certa na hora certa (ou upgrade no amor atual)",
+    "Autoconfiança inabalável e autoestima nas alturas",
+    "Um 2026 de vitórias em todas as áreas: amor, dinheiro e saúde"
+  ];
+
+  // Resumos positivos variados do ano
+  const summaries = [
+    "2026 será o seu ano de virada: portas se abrem, o dinheiro entra fácil e o coração fica leve. Prepare-se para brilhar!",
+    "O Universo conspirou a seu favor: 2026 traz abundância, conexões certas e aquela paz que você tanto merece.",
+    "Chegou a hora de colher: depois de tanto esforço, 2026 será de recompensas, alegrias e conquistas que vão surpreender você.",
+    "Um ano mágico espera por você: amor florescendo, finanças crescendo e saúde vibrante. 2026 é seu!",
+    "2026 vem carregado de luz: você vai realizar sonhos, encontrar paz e ver o dinheiro trabalhar a seu favor.",
+    "Prepare o coração: 2026 será sinônimo de sorte, amor verdadeiro e prosperidade que muda de patamar.",
+    "O melhor ainda está por vir: 2026 traz vitórias silenciosas que viram grandes histórias de superação e felicidade."
+  ];
+
+  const canvas = document.getElementById('scratchCanvas');
+  const ctx = canvas.getContext('2d');
+  const over = document.getElementById('scratchOver');
+  const winSection = document.getElementById('winSection');
+  const blessingText = document.getElementById('blessingText');
+  const summaryText = document.getElementById('summaryText');
+  const blessingUnder = document.getElementById('blessingUnder');
+
+  const WIDTH = canvas.width;
+  const HEIGHT = canvas.height;
+
+  ctx.fillStyle = '#b0b0b0';
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  ctx.font = 'bold 30px Arial';
+  ctx.fillStyle = '#111';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('Raspe para ver sua bênção!', WIDTH/2, HEIGHT/2);
+
+  let isDrawing = false;
+  let scratched = 0;
+  const total = WIDTH * HEIGHT;
+  const threshold = 0.62;
+
+  function getScratched() {
+    const data = ctx.getImageData(0, 0, WIDTH, HEIGHT).data;
+    let count = 0;
+    for (let i = 3; i < data.length; i += 4) if (data[i] === 0) count++;
+    return count / total;
+  }
+
+  function scratch(e) {
+    if (!isDrawing) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 28, 0, Math.PI * 2);
+    ctx.fill();
+
+    scratched = getScratched();
+    if (scratched >= threshold) {
+      const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
+      const randomSummary = summaries[Math.floor(Math.random() * summaries.length)];
+
+      blessingText.textContent = randomBlessing;
+      summaryText.textContent = randomSummary;
+
+      blessingUnder.style.opacity = '1'; // revela o fundo dourado
+      winSection.style.display = 'block';
+      over.style.display = 'none';
+      canvas.style.pointerEvents = 'none';
+
+      launchConfetti();
+    }
+  }
+
+  // Eventos mouse e touch
+  canvas.addEventListener('mousedown', () => isDrawing = true);
+  canvas.addEventListener('mouseup',   () => isDrawing = false);
+  canvas.addEventListener('mouseleave',() => isDrawing = false);
+  canvas.addEventListener('mousemove', scratch);
+
+  canvas.addEventListener('touchstart', e => { isDrawing = true; scratch(e); e.preventDefault(); });
+  canvas.addEventListener('touchmove',  e => { scratch(e); e.preventDefault(); });
+  canvas.addEventListener('touchend',   () => isDrawing = false);
+
+  // Confetes
+  function launchConfetti() {
+    const duration = 6000;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({ particleCount: 7, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#ffd700','#ffea00','#00ffcc'] });
+      confetti({ particleCount: 7, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#ffd700','#ffea00','#00ffcc'] });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    }());
+  }
+
+  // Compartilhar
+  document.getElementById('btnShare').addEventListener('click', () => {
+    const text = "Descobri minha bênção para 2026 na raspadinha! 🎉 Vem ver a sua e espalhar a sorte:\n" +
+                 window.location.href + "\n\nConvide 5 amigos e vamos fazer 2026 incrível! ✨";
+
+    if (navigator.share) {
+      navigator.share({ title: "Minha Bênção 2026!", text, url: window.location.href })
+        .catch(() => prompt("Copie e envie para 5 amigos:\n\n", window.location.href));
+    } else {
+      prompt("Copie o link e mande para 5 amigos:\n\n", window.location.href);
+    }
+  });
+</script>
+
+</body>
+</html>
